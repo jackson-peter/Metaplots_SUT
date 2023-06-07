@@ -1,8 +1,15 @@
-gene_list_f : "/home/jpeter/Scripts/SeedUTails/all_repr_genes.txt"
-sample_list_f : "/home/jpeter/Scripts/SeedUTails/all_samples.txt"
-repr_gene_model_f : "/home/jpeter/DATA/ReferenceGenomes/Athaliana/TAIR10/exon_intron_pos.repr.bed"
+# this file contains all the flepSeq results for dry seeds and flowers (3 replicates each)
 tail_result_f : "/home/jpeter/DATA/FLEPseq/Analysis/GS_F_df_tot.tsv.gz"
+# list of genes to subset the data
+gene_list_f : "/home/jpeter/Scripts/SeedUTails/Metaplots_SUT/config/all_repr_genes.txt"
+# list of samples to subset the data
+sample_list_f : "/home/jpeter/Scripts/SeedUTails/Metaplots_SUT/config/all_samples.txt"
+# representative gene model file used to run flepseq
+repr_gene_model_f : "/home/jpeter/DATA/ReferenceGenomes/Athaliana/TAIR10/exon_intron_pos.repr.bed"
+# annotation file
 annot_file : "/home/jpeter/DATA/ReferenceGenomes/Athaliana/TAIR10/TAIR10_GFF3_genes_transposons.gff"
+# nb of bins for CDS or UTR regions
 nb_bin_UTR : 20
 nb_bin_CDS : 100
+# output name
 outplot : "/home/jpeter/DATA/FLEPseq/Analysis/Meta_all_genes_all_samples.pdf"
