@@ -72,8 +72,7 @@ binRegion <- function(start, end, bins, idDF = NULL, info = NULL, strand_annot =
 }
 
 
-#tail_result$sample <- factor(tail_result$sample, levels=c("Col0", "urt1", "heso1", "heso1urt1"))
-
+###################################### BUILDING DATASETS
 tail_result_gl <- tail_result %>% 
   inner_join(distinct(repr_gene_model%>%select(c("repr_gene", "strand"))), by=c("mRNA"="repr_gene"))
 tail_result_gl$mRNA_start <- as.numeric(tail_result$mRNA_start)
@@ -88,21 +87,13 @@ annot_df <- read_tsv(annot_file, col_names = c("seqname", "source", "feature", "
   separate(attributes, into = c(NA, "gene"), extra = "drop", sep=c("[;=,-]")) %>%
   filter(gene %in% gene_list$AGI) %>%
   select(-c("score", "frame")) %>%
-  #mutate(five_p=case_when(strand=="+" ~ start,
-  #                        strand=="-" ~ end),
-  #       three_p=case_when(strand=="+" ~ end,
-  #                         strand=="-" ~ start)) %>%
   mutate(five_p=start,
          three_p=end) %>%
   select(-c("start", "end")) %>%
   pivot_wider(names_from = feature, values_from = c("five_p", "three_p")) %>%
   relocate(three_p_protein, .after=five_p_protein) 
-  #pivot_longer(c("five_p_mRNA", "five_p_protein"), names_to = "region_type", values_to = "val")
 
 annot_df <- setDT(annot_df)
-
-#save.image(file = "~/Scripts/SeedUTails/data.RData")
-#load("~/Scripts/SeedUTails/data.RData")
 
 # Get upstream region
 upstream <- copy(annot_df)
@@ -187,11 +178,6 @@ res_ol_3p <- tail_result_gl%>%
   filter(!is.na(binID)) %>%
   mutate(extr_type="3p")
 
-
-
-
-#test %>% filter(mRNA=="AT1G51110.1")
-
 res_ol_extr <- rbind(res_ol_5p, res_ol_3p)
 
 
@@ -220,7 +206,7 @@ mean_plot <- ggplot(res_ol_extr, aes(x=binID, y=mean_pct, color=extr_type)) +
 figure <- ggarrange(med_plot, mean_plot,
                     labels = c("A", "B"),
                     ncol = 1, nrow = 2)
-figure
+
 ggexport(figure, filename = outplot)
 
 
